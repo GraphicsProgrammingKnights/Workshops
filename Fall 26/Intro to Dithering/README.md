@@ -1,6 +1,6 @@
 Materials for the Fall 2026 "Intro to Shader Dithering" workshop.
 
-Video recording on [GPK YouTube]()
+Video recording on [GPK YouTube](https://www.youtube.com/@GraphicProgrammingKnights)
 
 Slideshow link: https://canva.link/dqptfwpgu7qnuyt
 
