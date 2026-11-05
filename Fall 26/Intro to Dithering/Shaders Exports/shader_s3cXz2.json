@@ -1,0 +1,49 @@
+{
+ "ver": "0.1",
+ "info": {
+  "id": "s3cXz2",
+  "date": "1792178006",
+  "viewed": 10,
+  "name": "Dither Workshop eg 1: incomplete",
+  "description": "Uses ordered-dithering to smooth transition between two colors",
+  "likes": 0,
+  "published": "Unlisted",
+  "usePreview": 0,
+  "tags": [
+   "dithering"
+  ],
+  "hasliked": 0,
+  "parentid": "NXdSRB",
+  "parentname": "Dither Workshop eg 1: Complete"
+ },
+ "renderpass": [
+  {
+   "inputs": [
+    {
+     "id": "4dfGRn",
+     "filepath": "/media/a/8de3a3924cb95bd0e95a443fff0326c869f9d4979cd1d5b6e94e2a01f5be53e9.jpg",
+     "type": "texture",
+     "channel": 0,
+     "sampler": {
+      "filter": "mipmap",
+      "wrap": "repeat",
+      "vflip": "true",
+      "srgb": "false",
+      "internal": "byte"
+     },
+     "published": 1
+    }
+   ],
+   "outputs": [
+    {
+     "id": "4dfGRr",
+     "channel": 0
+    }
+   ],
+   "code": "// Author: Andres Ortiz\n// Title: Ordered dithering workshop\n\n/*\n    *This is how to implement Ordered-dithering using a 2x2 bayer matrix\n    \n    *This is a 2x2 matrix containing the threshold values for the dither pattern\n    \n    *Pixels are sampled from the screen and converted to an index on the matrix\n    \n    *The value of the matrix's index is added to the luminance (brightness) \n     value at that pixel\n    \n    *If that pixel's luminance is brighter than the threshold value (0.5 but feel \n     free to experiment), the pixel is white, else the pixel becomes black\n*/\n\n//The matrix that we will be using in our dither function. 2x2 is the simplest matrix we can implement, but you can also do this with any matrix size so long as its a power of 2\nmat4 bayer4x4 = mat4(vec4(0.00, 8.0, 2.0,  10.0), \n                     vec4(12.0, 4.0, 14.0, 6.0),\n                     vec4(3.0,  11.0,1.0,  9.0),\n                     vec4(15.0, 7.0, 13.0, 5.0));\n\nfloat threshold = 0.50; //minimum value of lum to output white\n\nfloat ditherStrength = 0.15; //strength of the dither effect\n\n//this function will apply the dither to our image and smooth out the transitions between\n//colors\nfloat dither(vec3 color, float lum);\n\n//calculates the current luminance (brightness of the pixel)\nfloat getLum(vec3 color);\n\nvoid mainImage(out vec4 fragColor, in vec2 fragCoord){\n    //refresher: uv-coordinates convert the current pixel of the screen to a value between 0 \n    //and 1 we use this so our shaders work the same on all screen sizes\n    vec2 uv = fragCoord/iResolution.xy;\n\n    //our base color palette, a gradient between red and green depending on the current uv-coordinates\n    vec3 color = texture(iChannel0, uv).rgb;\n\t\n    //calculate the luminance (brightness) of the current pixel\n    float lum = getLum(color);\n    lum = dither(color, lum);\n    \n    //assign the current color of the pixel depending on the luminance (brightness)\n    color = vec3(1.0 - step(lum, threshold));\n    \n    //output the color to the screen\n    fragColor.rgb = color;\n\n}\n\n/*******************************************************************************\n                                BEGIN EDITING HERE\n********************************************************************************/\n\n/*******************************************************************************\n                                COMPLETE FUNCTION BODY\n********************************************************************************/\nfloat dither(vec3 color, float lum){\n\t//logic to calculate matrix index\n\tvec2 pixelCoord = vec2(gl_FragCoord.xy);\n    \n\t//nearest value on matrix\n    float matrixVal;\n    \n    //set matrixVal to the proper index of the bayer4x4 matrix\n    \n    \n\t//normalize matrix value (sub 0.5) then multiply by dither strength and \n    //finally add to luminance of pixel\n\t\n    //clamp so luminance doesnt exceed 1.0 or become negative\n\n    //return luminance\n    return lum;\n}\n\n\n/*******************************************************************************\n                                STOP EDITING HERE\n********************************************************************************/\n\n//calculates the current luminance (brightness of the pixel)\nfloat getLum(vec3 color){\n    return dot(vec3(0.2126, 0.7152, 0.0722), color);\n}\n",
+   "name": "Image",
+   "description": "",
+   "type": "image"
+  }
+ ]
+}

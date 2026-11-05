@@ -1,0 +1,50 @@
+{
+ "ver": "0.1",
+ "info": {
+  "id": "NXtSWl",
+  "date": "1792636518",
+  "viewed": 19,
+  "name": "Dither Workshop eg 0: incomplete",
+  "description": "Random dithering example",
+  "likes": 0,
+  "published": "Unlisted",
+  "usePreview": 0,
+  "tags": [
+   "random",
+   "dither"
+  ],
+  "hasliked": 0,
+  "parentid": "fXtSWl",
+  "parentname": "Dither Workshop eg 0: Complete"
+ },
+ "renderpass": [
+  {
+   "inputs": [
+    {
+     "id": "4dfGRn",
+     "filepath": "/media/a/8de3a3924cb95bd0e95a443fff0326c869f9d4979cd1d5b6e94e2a01f5be53e9.jpg",
+     "type": "texture",
+     "channel": 0,
+     "sampler": {
+      "filter": "mipmap",
+      "wrap": "repeat",
+      "vflip": "true",
+      "srgb": "false",
+      "internal": "byte"
+     },
+     "published": 1
+    }
+   ],
+   "outputs": [
+    {
+     "id": "4dfGRr",
+     "channel": 0
+    }
+   ],
+   "code": "// Author: Andres Ortiz\n// Title: Ordered dithering workshop\n\n/*\n    *This is how to implement dithering using a random value\n    \n    *Get the luminance (brightness) of each pixel\n    \n    *Compare it to a random value between 0-1\n    \n    *If that pixel's luminance is brighter than the threshold value, \n     the pixel is white, else the pixel becomes black\n     \n    *Comes out suprisingly good looking!\n*/\n\n\nfloat getLum(vec3 color);\nfloat rand(vec2 co);\n\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n    // Normalized pixel coordinates (from 0 to 1)\n    vec2 uv = fragCoord/iResolution.xy;\n\n    // Sample the texture in channel 0\n    vec3 col = texture(iChannel0, uv).rgb;\n    // Output to screen\n    float lum = getLum(col);\n\n    //implement random value here!\n    float threshold = 0.5;\n    \n    fragColor.rgb = vec3(1.0 - step(lum, threshold));\n}\n\nfloat getLum(vec3 color){\n    return dot(vec3(0.2126, 0.7152, 0.0722), color);\n}\n\nfloat rand(vec2 co)\n{\n    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);\n}\n",
+   "name": "Image",
+   "description": "",
+   "type": "image"
+  }
+ ]
+}

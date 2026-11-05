@@ -1,0 +1,49 @@
+{
+ "ver": "0.1",
+ "info": {
+  "id": "s3dSz2",
+  "date": "1792267021",
+  "viewed": 17,
+  "name": "Dither Workshop eg 2: Complete",
+  "description": "Halftone example for workshop",
+  "likes": 0,
+  "published": "Public",
+  "usePreview": 0,
+  "tags": [
+   "halftone"
+  ],
+  "hasliked": 0,
+  "parentid": "",
+  "parentname": ""
+ },
+ "renderpass": [
+  {
+   "inputs": [
+    {
+     "id": "Xdf3Rn",
+     "filepath": "/media/a/e81e818ac76a8983d746784b423178ee9f6cdcdf7f8e8d719341a6fe2d2ab303.webm",
+     "type": "video",
+     "channel": 0,
+     "sampler": {
+      "filter": "linear",
+      "wrap": "clamp",
+      "vflip": "true",
+      "srgb": "false",
+      "internal": "byte"
+     },
+     "published": 1
+    }
+   ],
+   "outputs": [
+    {
+     "id": "4dfGRr",
+     "channel": 0
+    }
+   ],
+   "code": "float pixelSize = 10.0;\nvec2 center = vec2(0.5);\nfloat radius = 0.5;\n\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n    vec2 normalPixel = pixelSize/iResolution.xy;\n    \n    // Normalized pixel coordinates (from 0 to 1)\n    vec2 uv = fragCoord/iResolution.xy;\n\n    vec2 pixelUV = normalPixel * floor(uv/normalPixel);\n    \n    vec2 cellUV = fract(uv / normalPixel);\n    \n    float dist = length(cellUV - radius);\n    float relativeRadius = radius * max(uv.x, radius);\n\n    vec3 col = texture(iChannel0, pixelUV).rgb;\n    float lum = dot(vec3(0.2126, 0.7152, 0.0722), col);\n\n    col = vec3(1.0 - step(lum, 0.5));\n    float lumRadius = radius * lum;\n    float circle = smoothstep(lumRadius - 0.01, lumRadius + 0.01, dist);\n\n    col = mix(col, vec3(0.0), circle);\n\n    // Output to screen\n    fragColor.rgb = col;\n}",
+   "name": "Image",
+   "description": "",
+   "type": "image"
+  }
+ ]
+}

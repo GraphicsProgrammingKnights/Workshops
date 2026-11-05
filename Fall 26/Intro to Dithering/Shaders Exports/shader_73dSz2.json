@@ -1,0 +1,49 @@
+{
+ "ver": "0.1",
+ "info": {
+  "id": "73dSz2",
+  "date": "1792267032",
+  "viewed": 13,
+  "name": "Dither Workshop eg 2: Incomplete",
+  "description": "Halftone example for workshop",
+  "likes": 0,
+  "published": "Unlisted",
+  "usePreview": 0,
+  "tags": [
+   "halftone"
+  ],
+  "hasliked": 0,
+  "parentid": "s3dSz2",
+  "parentname": "Dither Workshop eg 2: Complete"
+ },
+ "renderpass": [
+  {
+   "inputs": [
+    {
+     "id": "Xdf3Rn",
+     "filepath": "/media/a/e81e818ac76a8983d746784b423178ee9f6cdcdf7f8e8d719341a6fe2d2ab303.webm",
+     "type": "video",
+     "channel": 0,
+     "sampler": {
+      "filter": "linear",
+      "wrap": "clamp",
+      "vflip": "true",
+      "srgb": "false",
+      "internal": "byte"
+     },
+     "published": 1
+    }
+   ],
+   "outputs": [
+    {
+     "id": "4dfGRr",
+     "channel": 0
+    }
+   ],
+   "code": "float pixelSize = 10.0; //size of each pixel that the image will be converted to\nvec2 center = vec2(0.5); //center point of each dot\nfloat radius = 0.5; //relative size of each dot\n\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n    \n    // Normalized pixel coordinates (from 0 to 1)\n    vec2 uv = fragCoord/iResolution.xy;\n    vec3 col = texture(iChannel0, uv).rgb;\n    \n    float lum = dot(vec3(0.2126, 0.7152, 0.0722), col);\n    col = vec3(1.0 - step(lum, 0.5));\n\n/*******************************************************************************\n                                BEGIN EDITING HERE\n********************************************************************************/\n\n    //Pixelate image: do this last\n    vec2 normalPixel = pixelSize/iResolution.xy;\n    vec2 pixelUV = normalPixel * floor(uv/normalPixel);\n    vec2 cellUV = fract(uv / normalPixel);\n    \n    //apply dot mask to image\n    //float dist = //fill-in\n    //float relativeRadius = //fill-in\n    \n    //float circle = //fill in\n\n    //col = //anything outside of the dot is set to black\n    \n/*******************************************************************************\n                                STOP EDITING HERE\n********************************************************************************/\n\n    // Output to screen\n    fragColor.rgb = col;\n}",
+   "name": "Image",
+   "description": "",
+   "type": "image"
+  }
+ ]
+}

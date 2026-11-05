@@ -1,0 +1,63 @@
+{
+ "ver": "0.1",
+ "info": {
+  "id": "fXtXWl",
+  "date": "1792639575",
+  "viewed": 36,
+  "name": "Dither Workshop eg 0.5: Complete",
+  "description": "Blue noise example for shader workshop",
+  "likes": 0,
+  "published": "Public",
+  "usePreview": 0,
+  "tags": [
+   "bluenoise"
+  ],
+  "hasliked": 0,
+  "parentid": "",
+  "parentname": ""
+ },
+ "renderpass": [
+  {
+   "inputs": [
+    {
+     "id": "4dfGRn",
+     "filepath": "/media/a/8de3a3924cb95bd0e95a443fff0326c869f9d4979cd1d5b6e94e2a01f5be53e9.jpg",
+     "type": "texture",
+     "channel": 0,
+     "sampler": {
+      "filter": "mipmap",
+      "wrap": "repeat",
+      "vflip": "true",
+      "srgb": "false",
+      "internal": "byte"
+     },
+     "published": 1
+    },
+    {
+     "id": "XsBSR3",
+     "filepath": "/media/a/cb49c003b454385aa9975733aff4571c62182ccdda480aaba9a8d250014f00ec.png",
+     "type": "texture",
+     "channel": 1,
+     "sampler": {
+      "filter": "mipmap",
+      "wrap": "repeat",
+      "vflip": "true",
+      "srgb": "false",
+      "internal": "byte"
+     },
+     "published": 1
+    }
+   ],
+   "outputs": [
+    {
+     "id": "4dfGRr",
+     "channel": 0
+    }
+   ],
+   "code": "float getLum(vec3 color);\nfloat getThreshold(vec2 uv);\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n    // Normalized pixel coordinates (from 0 to 1)\n    vec2 uv = fragCoord/iResolution.xy;\n\n    // Time varying pixel color\n    vec3 col = texture(iChannel0, uv).rgb;\n    float lum = getLum(col);\n    \n    float threshold = getThreshold(uv);\n    \n    // Output to screen\n    fragColor.rgb = vec3(1.0 - step(lum, threshold));\n}\n\nfloat getThreshold(vec2 uv){\n    vec3 noise = texture(iChannel1, uv).rgb;\n    return getLum(noise);\n}\n\nfloat getLum(vec3 color){\n    return dot(vec3(0.2126, 0.7152, 0.0722), color);\n}",
+   "name": "Image",
+   "description": "",
+   "type": "image"
+  }
+ ]
+}
